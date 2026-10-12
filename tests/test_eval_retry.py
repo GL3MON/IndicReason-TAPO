@@ -1,5 +1,5 @@
 import unittest
-from evaluate_qwen35_sft import select_failed_rows
+from indic_reasoning.evaluation.datasets import select_failed_rows
 
 class RetryTests(unittest.TestCase):
     def setUp(self):

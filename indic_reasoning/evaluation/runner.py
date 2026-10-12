@@ -71,7 +71,7 @@ def main():
     elif args.merged_model is not None:
         merged = args.merged_model
     else:
-        temporary = tempfile.TemporaryDirectory(prefix='indic-reasoning-eval-')
+        temporary = tempfile.TemporaryDirectory(prefix='.merged-cache-', dir=args.output)
         merged = Path(temporary.name) / 'merged_model'
     try:
         if args.stage == 'export' or not (merged / 'config.json').exists():

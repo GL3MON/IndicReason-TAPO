@@ -27,7 +27,7 @@ scripts/env.sh          Shared launcher environment; no Conda activation
 patches/                Reproducible vLLM/TRL compatibility fixes
 ```
 
-The three root training/evaluation scripts are thin compatibility entry points. Existing training and checkpoint-evaluation commands continue to work; translation uses the package CLI. The package imports ML dependencies only when required; the training supervisor starts before them.
+The two root training scripts are thin compatibility entry points. Evaluation code stays inside `indic_reasoning/evaluation/` and is invoked through `python -m indic_reasoning evaluate`; translation also uses the package CLI. The package imports ML dependencies only when required; the training supervisor starts before them.
 
 ## Environment
 
@@ -117,7 +117,7 @@ python -m indic_reasoning evaluate --stage evaluate --checkpoint-kind rl \
 
 For SFT, use `--checkpoint-kind sft --adapter outputs/qwen35_ta_sft_2000/adapter`. The defaults select the same 500-question manifest and one greedy answer per question, with hidden thinking disabled and a 1,536-token completion cap.
 
-Evaluation automatically exports temporary merged weights and removes them when the run ends. Use `--keep-merged` to retain a cache, or `--stage export --output outputs/exported_model` for a standalone merged model. Results save incrementally; the original `sft_outputs.jsonl` filename remains compatible for both SFT and RL evaluations.
+Evaluation automatically exports temporary merged weights inside its output folder and removes them when the run ends. Use `--keep-merged` to retain a cache, or `--stage export --output outputs/exported_model` for a standalone merged model. Results save incrementally; the original `sft_outputs.jsonl` filename remains compatible for both SFT and RL evaluations.
 
 For a running job, freeze the latest complete checkpoint before evaluating:
 
