@@ -1,0 +1,10 @@
+{
+  "unit_tests": 45,
+  "unit_tests_passed": true,
+  "rl_gpu_smoke_optimizer_steps": 1,
+  "rl_gpu_smoke_passed": true,
+  "evaluation_gpu_smoke_questions": 2,
+  "evaluation_gpu_smoke_passed": true,
+  "temporary_merged_weights_cleaned": true,
+  "retained_checksums_verified": true
+}

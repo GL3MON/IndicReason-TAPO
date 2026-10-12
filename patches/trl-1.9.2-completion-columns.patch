@@ -1,0 +1,14 @@
+--- a/trainer/grpo_trainer.py
++++ b/trainer/grpo_trainer.py
+@@ -3320,6 +3320,11 @@
+                 "advantage": self._logs["advantages"],
+             }
+ 
++            # TAPO_VISIBLE_GOLD_ANSWER: reference and score precede wide text.
++            if "correct_answer" in table:
++                leading = [key for key in ("step", "correct_answer", "correctness_reward") if key in table]
++                table = {key: table[key] for key in leading + [key for key in table if key not in leading]}
++
+             df_base = pd.DataFrame(table)
+             df_base.to_parquet(
+                 os.path.join(

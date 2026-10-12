@@ -1,0 +1,34 @@
+{
+  "sft_2000": {
+    "dataset": "Vishal0407/GSM8K_TAMIL",
+    "dataset_revision": "982060cd2f7434e5c07514e22bf13d70b373cd97",
+    "sample_seed": 42,
+    "test_sha256": "a45b797de734d739d8adabdc01a853932154dc3ae9c0d7dcf9a98aa3d23f071e",
+    "n": 500,
+    "correct": 180,
+    "accuracy": 0.36,
+    "max_new_tokens": 1536,
+    "decoding": "greedy",
+    "adapter_sha256": "6fb8d25508294b8dce57e0dfdf5e549c1b923e21cee87c39c2dd9a9c0227a207"
+  },
+  "rl_1375": {
+    "dataset": "Vishal0407/GSM8K_TAMIL",
+    "dataset_revision": "982060cd2f7434e5c07514e22bf13d70b373cd97",
+    "sample_seed": 42,
+    "test_sha256": "a45b797de734d739d8adabdc01a853932154dc3ae9c0d7dcf9a98aa3d23f071e",
+    "n": 500,
+    "correct": 186,
+    "accuracy": 0.372,
+    "max_new_tokens": 1536,
+    "decoding": "greedy",
+    "adapter_sha256": "df542420f9d0fd5d9af4fa1cd63cf8a004823a1bd8ada7aeaac4f0f7e48ecd58"
+  },
+  "published_model": {
+    "repo_id": "GL3MON/Qwen3.5-2B-Tamil-TAPO",
+    "url": "https://huggingface.co/GL3MON/Qwen3.5-2B-Tamil-TAPO",
+    "commit": "8c5746b86adde3014128865f59da4e730d571fc6",
+    "public": true,
+    "global_step": 1525,
+    "verified_uploaded_files": 18
+  }
+}

@@ -1,0 +1,16 @@
+--- a/engine/arg_utils.py
++++ b/engine/arg_utils.py
+@@ -1711,6 +1711,13 @@
+         if os.environ.get("TAPO_VLLM_ENFORCE_EAGER") == "1":
+             self.enforce_eager = True
+ 
++        # TRL 1.9.2 does not forward the optional GDN prefill backend.
++        tapo_gdn_backend = os.environ.get("TAPO_VLLM_GDN_PREFILL_BACKEND")
++        if tapo_gdn_backend is not None:
++            if tapo_gdn_backend not in {"flashinfer", "triton", "cutedsl"}:
++                raise ValueError("Invalid TAPO_VLLM_GDN_PREFILL_BACKEND")
++            self.gdn_prefill_backend = tapo_gdn_backend
++
+         device_config = DeviceConfig(device=cast(Device, current_platform.device_type))
+ 
+         envs.validate_environ(self.fail_on_environ_validation)

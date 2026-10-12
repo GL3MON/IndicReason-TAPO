@@ -1,0 +1,79 @@
+# Tamil TAPO with Qwen3.5-2B; hidden thinking disabled by the trainer.
+# Fresh run: old Qwen2.5 adapters cannot be resumed with this model.
+model: Qwen/Qwen3.5-2B
+languages: [ta]
+data_jsonl: data/gsm8k_train_ta.jsonl
+output_dir: outputs/tapo_ta_qwen35_2b
+max_samples: 0             # 0 = all selected training rows
+max_steps: -1              # -1 = train for num_train_epochs
+num_train_epochs: 2
+
+# Batch sizes count completion sequences, including rollouts.
+# Effective batch = per_device_train_batch_size * gradient_accumulation_steps * WORLD_SIZE.
+# It must be divisible by num_generations (rollouts per unique prompt).
+# Conservative 20 GB profile: 8 completions / 8 rollouts = 1 unique prompt per optimizer step.
+per_device_train_batch_size: 1
+num_generations: 8
+gradient_accumulation_steps: 8
+max_completion_length: 1536
+
+# TAPO keeps beta=0, loss_type=dapo, token importance sampling, and Liger off.
+tapo_alpha: 0.25
+learning_rate: 1.0e-6
+weight_decay: 0.0
+warmup_ratio: 0.0
+lr_scheduler_type: linear
+max_grad_norm: 1.0
+num_iterations: 1
+epsilon: 0.2
+epsilon_high: 0.28
+seed: 3407
+log_entropy: false         # skip diagnostic entropy; TAPO objective is unchanged
+optim: adamw_torch_fused
+precision: auto            # auto, bf16, fp16, fp32
+gradient_checkpointing: true
+mask_truncated_completions: false
+
+# Official Qwen3.5 recommended non-thinking text sampling.
+temperature: 1.0
+top_p: 1.0
+top_k: 20
+min_p: 0.0
+presence_penalty: 2.0
+repetition_penalty: 1.0
+
+# LoRA (set full_finetune: true for full model training)
+full_finetune: false
+lora_r: 16
+lora_alpha: 32
+lora_dropout: 0.0
+lora_target_modules: "model.language_model.*(q_proj|k_proj|v_proj|o_proj|in_proj_qkv|in_proj_z|in_proj_b|in_proj_a|out_proj|gate_proj|up_proj|down_proj)"
+
+logging_steps: 1
+log_completions: true       # W&B table with prompts, all rollouts and rewards
+num_completions_to_print: 0 # avoid large terminal dumps; does not limit W&B rows
+save_steps: 100
+save_total_limit: 2
+dataloader_num_workers: 0
+resume: null
+
+# Weights & Biases: authenticate once with `conda run -n med wandb login`.
+report_to: wandb
+wandb_project: indic-reasoning-tapo
+wandb_entity: null          # optional team/user workspace
+wandb_mode: online          # offline stores logs locally for later syncing
+run_name: tapo-tamil-qwen35-2b
+
+# vLLM shares the training GPU. The 0.4 fraction is the inference budget,
+# not a cap on combined training + inference memory. Sleep frees inference
+# weights/cache while the policy trains. No separate vLLM server is needed.
+use_vllm: true
+vllm_enforce_eager: true  # avoid costly compilation on the 20 GB MIG slice
+vllm_gdn_prefill_backend: triton  # skip the large FlashInfer CUDA JIT build
+vllm_mode: colocate
+vllm_enable_sleep_mode: true
+vllm_gpu_memory_utilization: 0.4
+vllm_max_model_length: 2560  # includes both prompt and completion
+vllm_importance_sampling_correction: true
+vllm_importance_sampling_mode: token_truncate
+vllm_importance_sampling_clip_max: 3.0

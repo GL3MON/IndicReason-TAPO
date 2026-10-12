@@ -1,0 +1,17 @@
+# Example configuration for translating GSM8K with sarvam-translate via vLLM
+model_name: "sarvamai/sarvam-translate"
+vllm_url: "http://localhost:8000/v1/chat/completions"
+
+dataset_name: "gsm8k"
+dataset_config: "main"      # leave as null or empty string if not needed
+split: "train"
+text_column: "question"     # column to translate (GSM8K also has 'answer')
+target_language: "Hindi"
+batch_size: 8
+output_dir: "./translated_gsm8k_hindi"
+
+# Generation parameters (optional)
+max_tokens: 1024
+temperature: 0.01
+top_p: 0.95
+n: 1

@@ -1,0 +1,25 @@
+# Local training data and generated experiment artifacts
+/data/
+/outputs/
+/wandb/
+/.vscode/
+# Python and tooling caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+*.egg-info/
+build/
+dist/
+.venv/
+# Model weights, optimizer state, logs, and credentials
+*.safetensors
+*.pt
+*.pth
+*.bin
+*.log
+.env
+.env.*
+!.env.example

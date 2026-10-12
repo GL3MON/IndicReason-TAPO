@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "indic-reasoning"
+version = "0.1.0"
+description = "Tamil GSM8K translation, completion-only SFT, TAPO RL, and checkpoint evaluation"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = ["PyYAML>=6", "datasets>=4.3", "aiohttp>=3.9", "requests>=2.31"]
+
+[project.optional-dependencies]
+training = ["torch>=2.11,<2.12", "transformers>=5.6.2,<5.7", "peft>=0.20,<0.21", "trl==1.9.2", "accelerate>=1.14", "sacrebleu==2.5.1", "math-verify==0.8.0", "wandb>=0.28"]
+vllm = ["vllm==0.22.0"]
+
+[tool.setuptools.packages.find]
+include = ["indic_reasoning*"]

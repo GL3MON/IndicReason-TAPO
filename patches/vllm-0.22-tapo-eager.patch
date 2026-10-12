@@ -1,0 +1,21 @@
+--- a/engine/arg_utils.py
++++ b/engine/arg_utils.py
+@@ -2,6 +2,7 @@
+ # SPDX-FileCopyrightText: Copyright contributors to the vLLM project
+ 
+ import argparse
++import os
+ import copy
+ import dataclasses
+ import functools
+@@ -1705,6 +1706,10 @@
+         NOTE: If VllmConfig is incompatible, we raise an error.
+         """
+         current_platform.pre_register_and_update()
++        # Explicit opt-in for small MIG slices used by TAPO/TRL colocation.
++        # TRL 1.9.2 does not expose the LLM enforce_eager constructor argument.
++        if os.environ.get("TAPO_VLLM_ENFORCE_EAGER") == "1":
++            self.enforce_eager = True
+ 
+         device_config = DeviceConfig(device=cast(Device, current_platform.device_type))
+ 
